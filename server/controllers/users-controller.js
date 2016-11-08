@@ -38,6 +38,10 @@ module.exports = {
     User
       .findOne({ username: inputUser.username })
       .then(user => {
+        if (!user) {
+          res.render('users/login', { globalError: 'Invalid username or password' })
+          return
+        }
         if (!user.authenticate(inputUser.password)) {
           res.render('users/login', { globalError: 'Invalid username or password' })
         } else {
